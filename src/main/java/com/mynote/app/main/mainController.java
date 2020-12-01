@@ -24,16 +24,22 @@ public class mainController {
 	@RequestMapping(value = "/main.do",method = RequestMethod.GET)
 	public ModelAndView main() {
 		ModelAndView mav = new ModelAndView();
-		
-		test();
-		
+		try {
+			test();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		mav.setViewName("main");
 		return mav;
 	}
 	
 	public void test() {
-		List<Map<String,Object>> test = service.test();
-		System.out.println(test.toString());
+		try {
+			List<Map<String,Object>> test = service.test();
+			System.out.println(test.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
