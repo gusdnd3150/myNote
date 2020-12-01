@@ -41,5 +41,12 @@ public class mainController {
 			e.printStackTrace();
 		}
 	}
+	
+	@RequestMapping(value = "/login.do",method = RequestMethod.GET)
+	public ModelAndView logingForm() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/users/login");
+		return mav;
+	}
 
 }
