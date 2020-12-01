@@ -17,5 +17,6 @@ public class practicesDAO {
 		List<Map<String,Object>> test =sqlSession.selectList("myNoteTest.test");
 		return test;
 	}
+	
 
 }

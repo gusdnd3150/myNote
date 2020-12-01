@@ -42,10 +42,10 @@ public class mainController {
 		}
 	}
 	
-	@RequestMapping(value = "/login.do",method = RequestMethod.GET)
+	@RequestMapping(value = "/loginForm.do",method = RequestMethod.GET)
 	public ModelAndView logingForm() {
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/users/login");
+		mav.setViewName("/users/loginForm");
 		return mav;
 	}
 
