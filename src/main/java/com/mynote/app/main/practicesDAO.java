@@ -18,5 +18,10 @@ public class practicesDAO {
 		return test;
 	}
 	
+	public Integer checkLogin(Map<String,Object> info) {
+		Integer result =sqlSession.selectOne("myNoteTest.checkLogin",info);
+		return result;
+	}
+	
 
 }

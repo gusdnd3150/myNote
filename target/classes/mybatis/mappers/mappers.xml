@@ -18,6 +18,13 @@
 	 select *
 	 from products
 	</select>
+	
+	<select id="checkLogin" resultType="Integer" parameterType="java.util.Map">
+	 select *
+	 from users
+	 where email = trim(#{email})
+	 and password =#{password}
+	</select>
 <!-- 
 	<select id="searchList" resultMap="hmp001_d000Result01" parameterType="java.util.Map"> 
       <![CDATA[

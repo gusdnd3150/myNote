@@ -43,7 +43,6 @@
 	<br>
 	<br>
 	<!--================Home Banner Area =================-->
-	<div>
 	<section class="profile_area">
 		<div class="container">
 
@@ -83,7 +82,6 @@
 		</div>
 
 	</section>
-	</div>
 	<div align="center">
 		<button type="submit" onclick="join();" class="btn btn-default">회원가입</button>
 	</div>

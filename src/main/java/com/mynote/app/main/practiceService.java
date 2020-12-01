@@ -16,4 +16,9 @@ public class practiceService {
 		List<Map<String,Object>> test =dao.test();
 		return test;
 	}
+	
+	public Integer checkLogin(Map<String,Object> info) {
+		Integer result =dao.checkLogin(info);
+		return result;
+	}
 }
