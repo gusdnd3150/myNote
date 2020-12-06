@@ -45,8 +45,9 @@
 	<!--================Home Banner Area =================-->
 	<div>
 	<section class="profile_area">
-		<div class="container">
-
+		<div class="container" style="border: solid;padding: 50px;">
+    
+          <h2 align="center">로그인</h2>
 			<form class="form-horizontal" action="/practice/login.do"
 				name="check">
 				<div class="form-group">
@@ -80,13 +81,18 @@
 					</div>
 				</div>
 			</form>
+	<div align="center">
+		<button type="submit" onclick="join();" class="btn btn-default">회원가입</button>
+	</div>
 		</div>
 
 	</section>
 	</div>
-	<div align="center">
-		<button type="submit" onclick="join();" class="btn btn-default">회원가입</button>
-	</div>
+	
+	<br>
+	<br>
+	<br>
+	<br><br>
 	<!--================End Home Banner Area =================-->
 
 	<!--================Welcome Area =================-->
@@ -101,7 +107,7 @@
 <script>
 	function join() {
 		console.log("Ddd");
-		location.href = "/practices/join.do";
+		location.href = "/practices/joinForm.do";
 	}
 
 	function checkForm(event) {
@@ -110,7 +116,7 @@
 		var email = frmLogin.email.value;
 		var password = frmLogin.pwd.value;
 
-		var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+		var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; //이메일형식 정규식 
 
 		if (password == null | password == "") {
 			alert("비밀번호를 입력해 주세요");

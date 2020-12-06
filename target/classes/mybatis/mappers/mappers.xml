@@ -20,7 +20,7 @@
 	</select>
 	
 	<select id="checkLogin" resultType="Integer" parameterType="java.util.Map">
-	 select *
+	 select count(*)
 	 from users
 	 where email = trim(#{email})
 	 and password =#{password}

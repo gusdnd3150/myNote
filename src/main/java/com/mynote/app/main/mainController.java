@@ -30,10 +30,18 @@ public class mainController {
 	
 	
 	@RequestMapping(value = "/main.do",method = RequestMethod.GET)
-	public ModelAndView main() {
+	public ModelAndView main(HttpServletRequest request,HttpServletResponse response) {
 		ModelAndView mav = new ModelAndView();
+		try {
+			HttpSession session= request.getSession();
+			if(session.getAttribute("email") != null) {
+				mav.addObject("login", "ok");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		mav.setViewName("main");
+		mav.setViewName("/main");
 		return mav;
 	}
 	
@@ -44,15 +52,25 @@ public class mainController {
 		return mav;
 	}
 	
+	@RequestMapping(value = "/logOut.do",method = RequestMethod.GET)
+	public ModelAndView logOut(HttpServletRequest request,HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		HttpSession session= request.getSession();
+		session.invalidate();
+		
+		mav.setViewName("main");
+		return mav;
+	}
+	
+	
 	@ResponseBody
 	@RequestMapping(value = "/login.do",method = RequestMethod.GET)
 	public String login(@RequestParam Map<String,Object> info, HttpServletRequest request,HttpServletResponse response) {
 		String result ="";
-		Integer check;
 		
 		try {
-			check =service.checkLogin(info);
-			
+			Integer check =service.checkLogin(info);
+			System.out.print(check);
 			if(check ==null) {
 				result="fail";
 			}else {
@@ -71,6 +89,14 @@ public class mainController {
 	public ModelAndView joinForm() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/users/joinForm");
+		return mav;
+	}
+	
+	@RequestMapping(value = "/about.do",method = RequestMethod.GET)
+	public ModelAndView about(HttpServletRequest request,HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		//HttpSession session= request.getSession();
+		mav.setViewName("/users/aboutMe");
 		return mav;
 	}
 

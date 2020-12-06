@@ -126,11 +126,11 @@ span.psw {
 }
 </style>
     <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="icon" href="/resources/img/favicon.png" type="image/png">
-        <title>MeetMe Personal</title>
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="/resources/css/bootstrap.css">
         <link rel="stylesheet" href="/resources/vendors/linericon/style.css">
@@ -144,6 +144,7 @@ span.psw {
         <!-- main css -->
         <link rel="stylesheet" href="/resources/css/style.css">
         <link rel="stylesheet" href="/resources/css/responsive.css">
+        <script src="https://kit.fontawesome.com/e8913b960a.js" crossorigin="anonymous"></script>
     </head>
     <body>
         
@@ -163,24 +164,33 @@ span.psw {
 						<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
 							<ul class="nav navbar-nav menu_nav ml-auto">
 								<li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li> 
-								<li class="nav-item"><a class="nav-link" href="about-us.html">About</a></li> 
-								<li class="nav-item"><a class="nav-link" href="services.html">Services</a></li> 
-								<li class="nav-item submenu dropdown">
+								<li class="nav-item"><a class="nav-link" href="/practices/about.do">About</a></li> 
+								<!-- <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li> -->
+								<li class="nav-item"><a class="nav-link" href="services.html">Portfolio</a></li>
+								<!-- <li class="nav-item submenu dropdown">
 									<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
 									<ul class="dropdown-menu">
 										<li class="nav-item"><a class="nav-link" href="portfolio.html">Portfolio</a></li>
 										<li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
 									</ul>
-								</li> 
-								<li class="nav-item submenu dropdown">
+								</li>  -->
+								<li class="nav-item"><a class="nav-link" href="practices/board.do">MySkill</a></li>
+								<!-- <li class="nav-item submenu dropdown">
 									<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog</a>
 									<ul class="dropdown-menu">
-										<li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+										<li class="nav-item"><a class="nav-link" href="blog.html">Skill</a></li>
 										<li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
 									</ul>
-								</li> 
+								</li> --> 
 								<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+								
+								<c:if test="${login ne null }">
+								<!-- <li class="nav-item"><a class="nav-link" href="/practices/logOut.do">로그아웃</a></li> -->
+								<li class="nav-item"><a class="nav-link" href="javascript:void(0);" onclick="checkOut();">로그아웃</a></li>  
+								</c:if>
+								<c:if test="${login eq null }">
 								<li class="nav-item"><a class="nav-link" href="/practices/loginForm.do">로그인</a></li> 
+								</c:if>
 								
 							</ul>
 						</div> 
@@ -197,24 +207,22 @@ span.psw {
 					<div class="banner_content">
 						<div class="media">
 							<div class="d-flex">
-								<img src="/resources/img/personal.jpg" alt="">
+								<img src="/resources/img/me.PNG" alt="">
 							</div>
 							<div class="media-body">
 								<div class="personal_text">
-									<h6>Hello Everybody, i am</h6>
-									<h3>Donald McKinney</h3>
-									<h4>Junior UI/UX Developer</h4>
-									<p>You will begin to realise why this exercise is called the Dickens Pattern (with reference to the ghost showing Scrooge some different futures)</p>
+									<h5>안녕하세요 강현웅입니다.</h5>
+									<h3>Kang Hyeon Woong</h3>
+									<h4>Junior java/backend Developer</h4>
+									<p></p>
 									<ul class="list basic_info">
-										<li><a href="#"><i class="lnr lnr-calendar-full"></i> 31st December, 1992</a></li>
-										<li><a href="#"><i class="lnr lnr-phone-handset"></i> 44 (012) 6954 783</a></li>
-										<li><a href="#"><i class="lnr lnr-envelope"></i> businessplan@donald</a></li>
-										<li><a href="#"><i class="lnr lnr-home"></i> Santa monica bullevard</a></li>
+										<li><a href="#"><i class="lnr lnr-calendar-full"></i> 27st February, 1990</a></li>
+										<li><a href="#"><i class="lnr lnr-phone-handset"></i> 010-3784-3129</a></li>
+										<li><a href="#"><i class="lnr lnr-envelope"></i> gusdnd3150@gmail.com</a></li>
+										<li><a href="#"><i class="lnr lnr-home"></i> 경기도 용인시 마북동</a></li>
+										<li>GitHub :<a href="https://github.com/gusdnd3150">https://github.com/gusdnd3150</a></li>
 									</ul>
 									<ul class="list personal_social">
-										<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-										<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-										<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
 									</ul>
 								</div>
 							</div>
@@ -258,7 +266,7 @@ span.psw {
         		<div class="row welcome_inner">
         			<div class="col-lg-6">
         				<div class="welcome_text">
-        					<h4>About Myself</h4>
+        					<h4>사용 기술</h4>
         					<p>inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards especially in the workplace. That’s why it’s crucial that, as women, our behavior on the job is beyond reproach. inappropriate behavior is often laughed.</p>
         					<div class="row">
         						<div class="col-md-4">
@@ -282,12 +290,20 @@ span.psw {
         								<p>Total Volunteers</p>
         							</div>
         						</div>
+        						<div class="col-md-4">
+        							<div class="wel_item">
+        								<i class="lnr lnr-users"></i>
+        								<h4>3965</h4>
+        								<p>Total Volunteers</p>
+        							</div>
+        						</div>
         					</div>
         				</div>
         			</div>
         			<div class="col-lg-6">
-        				<div class="tools_expert">
-        					<div class="skill_main">
+        				
+        				<canvas id="myChart" width="500" height="500"></canvas>
+        					<!-- <div class="skill_main">
 								<div class="skill_item">
 									<h4>After Effects <span class="counter">85</span>%</h4>
 									<div class="progress_br">
@@ -328,9 +344,12 @@ span.psw {
 										</div>
 									</div>
 								</div>
-							</div>
-        				</div>
+							</div> -->
+							
+							
         			</div>
+        			
+        			
         		</div>
         	</div>
         </section>
@@ -667,16 +686,61 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         </footer>
         <!--================End Footer Area =================-->
         
-        <script>
-// Get the modal
-var modal = document.getElementById('id01');
+<script>
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
+var data =[9,6,7,8,7];               
+
+var ctx = document.getElementById('myChart');
+var myChart = new Chart(ctx, {
+    type: 'radar',
+    data: {
+        labels: ['자바', '자바스크립트', 'html', '제이쿼리', '오라클'],
+        datasets: [{
+            label: '기술 활용도',
+            data: data,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+    	responsive:true,
+    	legend: {
+			labels: {
+				/* fontColor: "red", */
+				fontSize: 40
+			}
+		},
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    fontSize:30
+                }
+            }]
+        }
     }
+});
+
+function checkOut(){
+	var check= window.confirm("로그아웃 하시겠습니까?");
+	if(check==true){
+		location.href="/practices/logOut.do";
+	}
 }
+
 </script>
         
         
