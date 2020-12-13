@@ -19,11 +19,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.mynote.app.Paging;
+
 //import com.mynote.app.HomeController;
 @Controller
 @RequestMapping("/practices/*")    // http://localhost:8090/app/practices/main.do
 public class mainController {
 	private static final Logger logger = LoggerFactory.getLogger(mainController.class);
+	
+	
+	
+	private Paging paging;
 	
 	@Autowired
 	practiceService service;
@@ -69,9 +75,10 @@ public class mainController {
 		String result ="";
 		
 		try {
+			
 			Integer check =service.checkLogin(info);
 			System.out.print(check);
-			if(check ==null) {
+			if(check < 1 || check==null) {
 				result="fail";
 			}else {
 				System.out.print(check);
@@ -98,6 +105,32 @@ public class mainController {
 		//HttpSession session= request.getSession();
 		mav.setViewName("/users/aboutMe");
 		return mav;
+	}
+	
+	
+	// 포트폴리오 페이지 이동
+	@RequestMapping(value = "/practices/portfolio.do",method = RequestMethod.GET)
+	public ModelAndView port() {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/board/myportfolio");
+		return mav;
+	}
+	
+	// 아작스 페이징처리 내일 일어나서 하자
+	@RequestMapping(value = "/paging.do",method = RequestMethod.GET)
+	public Paging pagingmethod(@RequestParam Map<String,Object> info) {
+		
+		String start =(String) info.get("start");
+		String end = (String) info.get("end");
+		
+		start = (start==null)? "1":start;
+		end = (end==null)? "6":end;
+		int total = service.total();
+		
+		System.out.print(start);
+		
+		paging = new Paging(total,Integer.parseInt(start),Integer.parseInt(end));
+		return paging;
 	}
 
 }

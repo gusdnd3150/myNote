@@ -166,7 +166,8 @@ span.psw {
 								<li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li> 
 								<li class="nav-item"><a class="nav-link" href="/practices/about.do">About</a></li> 
 								<!-- <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li> -->
-								<li class="nav-item"><a class="nav-link" href="services.html">Portfolio</a></li>
+								<li class="nav-item"><a class="nav-link" href="/practices/portfolio.do">Portfolio</a></li>
+								
 								<!-- <li class="nav-item submenu dropdown">
 									<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
 									<ul class="dropdown-menu">
@@ -180,7 +181,7 @@ span.psw {
 									<ul class="dropdown-menu">
 										<li class="nav-item"><a class="nav-link" href="blog.html">Skill</a></li>
 										<li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
-									</ul>
+									</ul> 
 								</li> --> 
 								<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
 								

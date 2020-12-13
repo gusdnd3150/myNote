@@ -21,4 +21,8 @@ public class practiceService {
 		Integer result =dao.checkLogin(info);
 		return result;
 	}
+	
+	public int total() {
+		return dao.total();
+	}
 }

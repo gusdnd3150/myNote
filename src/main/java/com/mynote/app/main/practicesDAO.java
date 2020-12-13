@@ -19,10 +19,15 @@ public class practicesDAO {
 		return test;
 	}
 	
+	// 로그인 아이디/비밀번호 체크
 	public Integer checkLogin(Map<String,Object> info) {
 		Integer result =sqlSession.selectOne("myNoteTest.checkLogin",info);
 		return result;
 	}
 	
+	
+	public int total() {
+		return sqlSession.selectOne("myNoteTest.total");
+	}
 
 }

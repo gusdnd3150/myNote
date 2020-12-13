@@ -45,7 +45,7 @@
 	<!--================Home Banner Area =================-->
 	<div>
 	<section class="profile_area">
-		<div class="container" style="border: solid;padding: 50px;">
+		<div class="container" style="border: solid;padding: 50px;" width="100px">
     
           <h2 align="center">로그인</h2>
 			<form class="form-horizontal" action="/practice/login.do"

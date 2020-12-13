@@ -5,6 +5,7 @@
 
 
 <mapper namespace="myNoteTest">
+
 	<resultMap id="hmp001_d000Result01" type="hmp001_d000VO">
 		<result property="id" column="id"  />
 		<result property="pwd" column="pwd" />
