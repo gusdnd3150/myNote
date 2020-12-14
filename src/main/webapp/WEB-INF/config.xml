@@ -17,8 +17,8 @@
 	Configure the location of uploaded files. See the following article for more details:
 	http://docs.cksource.com/CKFinder_2.x/Developers_Guide/Java/Configuration/baseURL_and_baseDir
 	-->
-<!-- <baseDir>C:\MyProject\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\pro30\resources\ckstorage</baseDir> -->
-	<baseDir>/Users/sylvia_p/eclipse-workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/hiking/resources/img</baseDir>
+<!-- <baseDir>C:\MyProject\workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\     pro30\resources\ckstorage</baseDir> -->
+	<baseDir>C:\Users\GOOD\eclipse-workspace\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\myNote\resources\img</baseDir>
 	<baseURL>/resources/img</baseURL>
 	<licenseKey></licenseKey>
 	<licenseName></licenseName>

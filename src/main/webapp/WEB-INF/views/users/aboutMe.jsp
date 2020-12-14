@@ -21,10 +21,10 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+       <jsp:include page="/WEB-INF/views/header/header.jsp" />
  <body>
         
         <!--================Header Menu Area =================-->
-       <jsp:include page="/WEB-INF/views/header/header.jsp" />
         <!--================Header Menu Area =================-->
         
         <!--================Home Banner Area =================-->

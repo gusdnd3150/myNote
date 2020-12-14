@@ -26,6 +26,44 @@
 	 where email = trim(#{email})
 	 and password =#{password}
 	</select>
+	
+	<select id="total" resultType="int">
+	 select count(*)
+	 from boards
+	</select>
+	
+	<select id="userNum" resultType="int" parameterType="String">
+	 select userNum
+	 from users
+	 where email = #{email}
+	</select>
+	
+	
+	<select id="boardList" resultType="map" parameterType="java.util.Map">
+	 SELECT * 
+		FROM (
+			SELECT ROWNUM RN,A.*
+				FROM (
+						SELECT b.boardnum,b.boardtype,b.content,b.title,b.cnt,to_char(b.updateD,'yyyy-mm-dd')as updated,
+                        u.name,u.id
+						FROM BOARDs b, USERS u
+                        WHERE b.USERNUM= u.USERNUM
+						ORDER BY b.updateD DESC 
+						) A
+				)
+	WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+	
+	<insert id="createBoard" parameterType="java.util.Map"   >
+		<selectKey resultType="int" keyProperty="boardNum" order="BEFORE">
+	    	select seq_board.nextval from dual
+	    </selectKey>
+	    <![CDATA[
+	    		INSERT INTO boards (boardNum,userNum,boardType,content,title,updated)
+	    		VALUES(#{boardNum},#{userNum},#{Boardtype},#{content},#{title},sysdate)
+		]]>
+	    </insert>  
 <!-- 
 	<select id="searchList" resultMap="hmp001_d000Result01" parameterType="java.util.Map"> 
       <![CDATA[

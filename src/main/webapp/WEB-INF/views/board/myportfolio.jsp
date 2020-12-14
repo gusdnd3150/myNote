@@ -33,30 +33,42 @@
 <title>Insert title here</title>
 </head>
 
-<body>
 	<jsp:include page="/WEB-INF/views/header/header.jsp" />
-	
+<body>
+
 	<div class="container">
+	   <h1 style="text-align:center">공부자료</h1>
 		<div class="row">
 			<div class="col-lg-12">
 				<div id="board">
-					<table class="table table-hover" id="list">
-						<tr>
-							<th>정보0</th>
-							<th>정보1</th>
-							<th>정보2</th>
-							<th>정보3</th>
-							<th>정보4</th>
-						</tr>
-					</table>
-					<div id="paging">
-					
-					</div>
-					
+<!-- 					<table class="table table-hover" id="list">
+					</table> -->
 					
 				</div>
+				 <!-- 페이징 -->
+					<div id="paging" align="center"></div>
+					
+				<div align="center">
+				 <button class="btn btn-default" onclick="writeBoard();">글쓰기</button>
+				</div>	
+					
 			</div>
 		</div>
+	<hr>
+	</div>
+	<br>
+	<br><br>
+	
+	<div class="container">
+	   <h style="text-align:center"></h>
+	  <div class="row" id="medioArea">
+	        <div class="col-lg-6">
+	        asdasdsad
+	        </div>
+	        <div class="col-lg-6">
+	          sadsada
+	        </div>
+	  </div>
 	</div>
 
 </body>
@@ -76,6 +88,7 @@ function paging(nowPage,cntPerPage){        //현재페이지 , 페이지당 보
     	data:{nowPage:nowPage,cntPerPage:cntPerPage},
     	success:function(data){
     		console.log(data);
+    		
     		var pagingView="";
     		
     		  if(data.startPage !=1){
@@ -88,7 +101,6 @@ function paging(nowPage,cntPerPage){        //현재페이지 , 페이지당 보
     				  pagingView +="<a href='#' onclick='return paging("+i+","+data.cntPerPage+");'>"+i+"</a>";
     			  }
     		  }
-    		  
     		  if(data.endPage != data.lastPage){
     			  pagingView +="<a href='#' onclick='return paging("+(data.endPage +1)+","+data.cntPerPage+");'>&gt;</a>";
     		  }
@@ -97,33 +109,48 @@ function paging(nowPage,cntPerPage){        //현재페이지 , 페이지당 보
     		pagingDiv.html(pagingView);
     		
     		
-    		
     	 	$.ajax({
     	    	type:"get",
-    	    	url:"/PagingValues.do",
+    	    	url:"/practices/pagingValues.do",
     	    	dataType:"json",
     	    	data:{start:data.start,end:data.end},       //시작 번호와 끝값만 다시 보내주고 값을 가져옴 start,end
     	    	success:function(data){
+    	    		console.log(data);
     	    		
      	    		var table="";
+     	    		table += "<table class='table table-hover'>";
      	    		table += "<tr>";
-     	    		table += "<th>이름</th>";
-     	    		table += "<th>가격</th>";
-     	    		table += "<th>넘버</th>";
+     	    		table += "<th>글번호</th>";
+     	    		table += "<th>제목</th>";
+     	    		table += "<th>작성자</th>";
+     	    		table += "<th>작성일</th>";
+     	    		table += "<th>분류</th>";
      	    		table += "<th>조회수</th>";
-     	    		table += "<th>카테</th>";
      	    		table += "</tr>";
+     	    		
+    	    		
+    	    		if(data.length ==0){  //게시물이 없다면
+    	    			table +="<tr>";
+    	    			table +="<th style='text-align:center' colspan='6'>등록된 게시물이 없습니다.</td>";
+    	    			table +="</tr>";
+    	    		}else{
+    	    			
     	    		for(var i in data){
     	    			table +="<tr>";
+    	    			table += "<td>"+data[i].RN+"</td>";
+    	    			table += "<td><a href='/practices/boardDetail.do?boardNum="+data[i].BOARDNUM+"'>"+data[i].TITLE+"</a></td>";
     	    			table += "<td>"+data[i].NAME+"</td>";
-    	    			table += "<td>"+data[i].PRICE+"</td>";
-    	    			table += "<td>"+data[i].PRODNUM+"</td>";
-    	    			table += "<td>"+data[i].CNTCOUNT+"</td>";
-    	    			table += "<td>"+data[i].PRODCATEGORYNUM+"</td>";
+    	    			table += "<td>"+data[i].UPDATED+"</td>";
+    	    			if(data[i].BOARDTYPE==1){
+    	    				table += "<td>자바</td>";	
+    	    			}
+    	    			table += "<td>"+data[i].CNT+"</td>";
     	    			table +="</tr>";
     	    		}
+    	    		}
+    	    		table += "</table>";
     	    	
-    	    		$("#list").html(table);
+    	    		$("#board").html(table);
     	    		
     	    	}
     	    }); 
@@ -131,6 +158,16 @@ function paging(nowPage,cntPerPage){        //현재페이지 , 페이지당 보
  
     });
 }  
+
+function writeBoard(){
+	
+	var email = "${email}";  //세션에 저장되어있다면 로그인한 것이니까 선언하여 값 체크 후 페이지 이동
+	if(email==null||email==""){
+		alert("로그인 후 이용 가능합니다");
+	}else{
+	    location.href="/practices/write.do";
+	}
+}
 
 </script>
 </html>

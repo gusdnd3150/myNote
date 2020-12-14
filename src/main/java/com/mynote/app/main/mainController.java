@@ -2,6 +2,7 @@ package com.mynote.app.main;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,9 +28,6 @@ import com.mynote.app.Paging;
 public class mainController {
 	private static final Logger logger = LoggerFactory.getLogger(mainController.class);
 	
-	
-	
-	private Paging paging;
 	
 	@Autowired
 	practiceService service;
@@ -117,20 +115,63 @@ public class mainController {
 	}
 	
 	// 아작스 페이징처리 내일 일어나서 하자
+	@ResponseBody
 	@RequestMapping(value = "/paging.do",method = RequestMethod.GET)
-	public Paging pagingmethod(@RequestParam Map<String,Object> info) {
+	public Paging pagingmethod(@RequestParam Map<String,Object> info,
+			HttpServletRequest request, HttpServletResponse response) {
 		
-		String start =(String) info.get("start");
-		String end = (String) info.get("end");
+		System.out.print("화면값"+info.toString());
+		
+		String start =(String) info.get("nowPage");
+		String end = (String) info.get("cntPerPage");
 		
 		start = (start==null)? "1":start;
 		end = (end==null)? "6":end;
 		int total = service.total();
 		
-		System.out.print(start);
+		Paging paging = new Paging(total,Integer.parseInt(start),Integer.parseInt(end));
 		
-		paging = new Paging(total,Integer.parseInt(start),Integer.parseInt(end));
 		return paging;
 	}
-
+	
+	// 아작스 게시판 시작,끝값
+	@RequestMapping(value = "/pagingValues.do",method = RequestMethod.GET)
+	@ResponseBody
+	public List<Map<String,Object>> board(@RequestParam Map<String,Object> info,
+			HttpServletRequest request, HttpServletResponse response){
+		
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		
+		System.out.print("페이징dddd"+info.toString());
+		list= service.list(info);
+		
+		return list;
+	}
+	
+	// 포트폴리오 페이지 이동
+		@RequestMapping(value = "/practices/write.do",method = RequestMethod.GET)
+		public ModelAndView write() {
+			ModelAndView mav = new ModelAndView();
+			mav.setViewName("/board/writeBoard");
+			return mav;
+		}
+		
+		@RequestMapping(value = "/practices/uploadBoard.do",method = RequestMethod.POST)
+		public String upload(@RequestParam Map<String,Object> info
+				,HttpServletRequest request, HttpServletResponse response) {
+			String result ="";
+			HttpSession session=request.getSession();
+			String email =(String) session.getAttribute("email");
+			int userNum = service.userNum(email);
+			
+			try {
+				info.put("userNum", userNum);
+				service.createBoard(info);
+				result="/board/myportfolio";
+			} catch (Exception e) {
+				e.printStackTrace();
+				result="";
+			}
+			return result;
+		}
 }

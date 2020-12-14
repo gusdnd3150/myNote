@@ -29,5 +29,17 @@ public class practicesDAO {
 	public int total() {
 		return sqlSession.selectOne("myNoteTest.total");
 	}
+	
+	public List<Map<String,Object>> list(Map<String,Object> map) {
+		return sqlSession.selectList("myNoteTest.boardList",map);
+	}
+	
+	public void createBoard(Map<String,Object> map) {
+		 sqlSession.insert("myNoteTest.createBoard",map);
+	}
+	
+	public int userNum(String info) {
+		 return sqlSession.selectOne("myNoteTest.userNum",info);
+	}
 
 }

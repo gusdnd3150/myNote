@@ -25,4 +25,15 @@ public class practiceService {
 	public int total() {
 		return dao.total();
 	}
+	
+	public List<Map<String,Object>> list(Map<String,Object> map) {
+		return dao.list(map);
+	}
+	
+	public void createBoard(Map<String,Object> map) {
+		dao.createBoard(map);
+	}
+	public int userNum(String info) {
+		 return dao.userNum(info);
+	}
 }

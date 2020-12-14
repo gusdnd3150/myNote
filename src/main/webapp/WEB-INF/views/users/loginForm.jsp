@@ -31,8 +31,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
 	<jsp:include page="/WEB-INF/views/header/header.jsp" />
+<body>
 
 	<!--================Home Banner Area =================-->
 
