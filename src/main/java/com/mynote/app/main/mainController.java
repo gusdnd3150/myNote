@@ -182,7 +182,7 @@ public class mainController {
 		return mav;
 	}
 
-	// 게시판 상세글 이동 + cnt 증가 조회수
+	// 게시판 상세글 이동 + cnt 증가 조회수 + 댓글리스트
 	@ResponseBody
 	@RequestMapping(value = "/practices/boardDetail.do", method = RequestMethod.GET)
 	public Map<String,List<Map<String,Object>>> boardDetail(@RequestParam Map<String, Object> info, HttpServletRequest request,

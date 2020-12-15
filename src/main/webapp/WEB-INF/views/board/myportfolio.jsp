@@ -76,55 +76,7 @@
 			<!-- 댓글 -->
 			<div class="col-lg-12" style="padding: 90px; padding-top: 0px;">
 					<h2>댓글</h2>
-				<div style="background-color: #e9e9e9" id="afterList">
-					<div class="media">
-						<div class="media-left">
-							<img src="img_avatar1.png" class="media-object"
-								style="width: 45px">
-						</div>
-						<div class="media-body">
-							<h4 class="media-heading">
-								John Doe <small><i>Posted on February 19, 2016</i></small>
-							</h4>
-							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-								sed do eiusmod tempor incididunt ut labore et dolore magna
-								aliqua.</p>
-
-							<!-- Nested media object -->
-							<div class="media">
-								<div class="media-left">
-									<img src="img_avatar2.png" class="media-object"
-										style="width: 45px">
-								</div>
-								<div class="media-body">
-									<h4 class="media-heading">
-										John Doe <small><i>Posted on February 19, 2016</i></small>
-									</h4>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-										sed do eiusmod tempor incididunt ut labore et dolore magna
-										aliqua.</p>
-
-									<!-- Nested media object -->
-									<div class="media">
-										<div class="media-left">
-											<img src="img_avatar3.png" class="media-object"
-												style="width: 45px">
-										</div>
-										<div class="media-body">
-											<h4 class="media-heading">
-												John Doe <small><i>Posted on February 19, 2016</i></small>
-											</h4>
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing
-												elit, sed do eiusmod tempor incididunt ut labore et dolore
-												magna aliqua.</p>
-										</div>
-									</div>
-
-								</div>
-							</div>
-
-						</div>
-					</div>
+				<div style="background-color: #e9e9e9" id="afterList" >
 				</div>
 			</div>
 
@@ -288,8 +240,7 @@
 	}
 
 	function showBoard(boardNum) { //게시판 디테일
-		$
-				.ajax({
+		$.ajax({
 					type : "get",
 					url : "/practices/boardDetail.do",
 					data : {
@@ -329,6 +280,37 @@
 						boardDetail.append(outPut); // append로 테그를 추가
 						showCK(); // ck에디터 적용 함수
 						detailContainer.slideDown(); // 숨김처리로 된 div를 노출시킴
+						
+						var afterList = $("#afterList");
+						var afterPut ="";
+						console.log(responseData.afterList);
+						
+						if(responseData.afterList.length==0){
+							afterPut +="<div class='media'>";
+							afterPut +="<div class='media-left'>";
+							afterPut +="<p>댓글이 없습니다.</p>";
+							afterPut +="</div></div>";
+						}else{
+							for(var i in responseData.afterList){
+								if(responseData.afterList[i].LEV==1){  //원글이면
+									afterPut +="<div class='media'>";
+								}else if(responseData.afterList[i].LEV==2){ // 댓글이면
+									afterPut +="<div class='media'  style='padding-left:50px'>";
+								}else if(responseData.afterList[i].LEV==3){ //대댓글이면
+									afterPut +="<div class='media'  style='padding-left:100px'>";
+								}
+									afterPut +="<div class='media-left'>";
+									afterPut +="<img src='img_avatar2.png' class='media-object' style='width:45px'>";
+									afterPut +="</div>";
+									afterPut +="<div class='media-body'>";
+									afterPut +="<h4 class='media-heading'>John Doe <small><i>Posted on February 20, 2016</i></small></h4>";
+									afterPut +="<p>SDSD</p>";
+									afterPut +="</div>";
+									afterPut +="</div>";
+							}
+						}
+						afterList.html(afterPut);
+						
 					},
 					error : function(xhr) {
 						console.log(xhr);
