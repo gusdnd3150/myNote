@@ -69,6 +69,20 @@
 	    		VALUES(#{boardNum},#{userNum},#{Boardtype},#{content},#{title},sysdate)
 		]]>
 	</insert>
+	
+	
+	
+	<insert id="addComment" parameterType="java.util.Map">
+		<selectKey resultType="int" keyProperty="afterNum" order="BEFORE">
+			select seq_comment.nextval from dual
+		</selectKey>
+	    <![CDATA[
+	    		INSERT INTO comments (afterNum,boardnum,aftertype,content)
+	    		VALUES(#{afterNum},#{boardNum},1,#{content})
+		]]>
+	</insert>
+	
+	
 
 	<select id="boardDetail" resultType="map" parameterType="String">
 		select b.boardnum,b.boardtype,b.cnt,b.content,b.title,b.usernum

@@ -30,8 +30,27 @@
 <link rel="stylesheet" href="/resources/css/style.css">
 <link rel="stylesheet" href="/resources/css/responsive.css">
 
+<!-- 페이징을 위한 선언 -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<style>
+.pagination {
+	display: inline-block;
+	text-align: center;
+}
+
+.pagination>li>a {
+	float: none;
+}
+</style>
 </head>
 
 <jsp:include page="/WEB-INF/views/header/header.jsp" />
@@ -52,7 +71,7 @@
 				<div id="paging" align="center"></div>
 
 				<div align="center">
-					<button class="btn btn-default" onclick="writeBoard();">글쓰기</button>
+					<button class="btn btn-default btn-lg" onclick="writeBoard();">글쓰기</button>
 				</div>
 
 			</div>
@@ -70,14 +89,17 @@
 			<button class="btn-warning" style="margin: 20px;" onclick="fold()">접기</button>
 
 			<!-- 게시글 -->
-			<div class="col-lg-12" id="boardDetail" style="padding: 90px;">
-			</div>
+			<div class="col-lg-12" id="boardDetail"
+				style="padding: 90px; padding-bottom: 10px;"></div>
 
 			<!-- 댓글 -->
 			<div class="col-lg-12" style="padding: 90px; padding-top: 0px;">
-					<h2>댓글</h2>
-				<div style="background-color: #e9e9e9" id="afterList" >
-				</div>
+				<h2>댓글</h2>
+				<div style="background-color: #e9e9e9; padding: 20px;"
+					id="afterList"></div>
+				<hr>
+				<!-- 댓글 등록 버튼 -->
+				<div id="commentButton"></div>
 			</div>
 
 		</div>
@@ -102,6 +124,24 @@
 		paging(1, 6);
 
 	});
+	
+	
+	function addComment(boardNum){  //댓글등록
+	var content =$("#commentContent").val();
+		 $.ajax({
+			            type: "post",
+			            url: "/practices/addComment.do",
+			            data: {boardNum:boardNum,content:content},
+			            dataType: "text",
+			            success: function( responseData, status , xhr ){
+			            },
+			            error:function(xhr, status, error){
+			                console.log(error);
+			            }
+			        });
+	}
+	
+	
 
 	function fold() {
 		$("#detailContainer").slideUp();
@@ -121,38 +161,40 @@
 						console.log(data);
 
 						var pagingView = "";
+						pagingView += "<ul class='pagination' style='inline-block:none'>";
 
 						if (data.startPage != 1) {
-							pagingView += "<a href='#' onclick='return paging("
+							pagingView += "<li><a href='#' onclick='return paging("
 									+ (data.startPage - 1) + ","
-									+ data.cntPerPage + ");'>&lt;</a>";
+									+ data.cntPerPage + ");'>&lt;</a></li>";
 						}
 
 						for (var i = data.startPage; i <= data.endPage; i++) {
 							if (i == data.nowPage) {
-								pagingView += "<a style='color:red' href='#'>"
-										+ i + "</a>";
+								pagingView += "<li><a style='color:red' href='#'>"
+										+ i + "</a></li>";
 							} else if (i != data.nowPage) {
-								pagingView += "<a href='#' onclick='return paging("
+								pagingView += "<li><a href='#' onclick='return paging("
 										+ i
 										+ ","
 										+ data.cntPerPage
 										+ ");'>"
-										+ i + "</a>";
+										+ i + "</a></li>";
 							}
 						}
 
 						if (data.endPage != data.lastPage) {
-							pagingView += "<a href='#' onclick='return paging("
+							pagingView += "<li><a href='#' onclick='return paging("
 									+ (data.endPage + 1) + ","
-									+ data.cntPerPage + ");'>&gt;</a>";
+									+ data.cntPerPage + ");'>&gt;</a></li>";
 						}
+						
+						pagingView += "</ul>";
 
 						var pagingDiv = $("#paging");
 						pagingDiv.html(pagingView);
 
-						$
-								.ajax({
+						$.ajax({
 									type : "get",
 									url : "/practices/pagingValues.do",
 									dataType : "json",
@@ -294,13 +336,14 @@
 							for(var i in responseData.afterList){
 								if(responseData.afterList[i].LEV==1){  //원글이면
 									afterPut +="<div class='media'>";
-								}else if(responseData.afterList[i].LEV==2){ // 댓글이면
+								}else if(responseData.afterList[i].LEV==2){ // 댓글이면 padding으로 구분지었다
 									afterPut +="<div class='media'  style='padding-left:50px'>";
 								}else if(responseData.afterList[i].LEV==3){ //대댓글이면
 									afterPut +="<div class='media'  style='padding-left:100px'>";
 								}
 									afterPut +="<div class='media-left'>";
-									afterPut +="<img src='img_avatar2.png' class='media-object' style='width:45px'>";
+									
+									afterPut +="<img src='/resources/userBasic.jpg' class='media-object' style='width:45px'>";
 									afterPut +="</div>";
 									afterPut +="<div class='media-body'>";
 									afterPut +="<h4 class='media-heading'>John Doe <small><i>Posted on February 20, 2016</i></small></h4>";
@@ -311,6 +354,13 @@
 						}
 						afterList.html(afterPut);
 						
+						var commentButton= $("#commentButton");
+						
+						commentButton.html("<div class='input-group'>"
+								+"<textarea placeholder='로그인 후 이용 가능합니다.' id='commentContent' class='form-control custom-control' rows='3' style='resize:none'></textarea>"
+								+"<span style='width:89px;font-size: 25px;' class='input-group-addon btn btn-primary' onclick='addComment("+responseData.detail[0].BOARDNUM+")'>등록</span>"
+								+"</div>"
+								);
 					},
 					error : function(xhr) {
 						console.log(xhr);

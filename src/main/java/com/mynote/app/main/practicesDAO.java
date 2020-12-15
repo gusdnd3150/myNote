@@ -59,4 +59,9 @@ public class practicesDAO {
 	public List<Map<String,Object>> afterList(String info) {
 		return sqlSession.selectList("myNoteTest.afterList",info);
 	}
+	
+	// 댓글 등록
+		public void addComment(Map<String,Object> info) {
+			 sqlSession.insert("myNoteTest.addComment",info);
+		}
 }

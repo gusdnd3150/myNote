@@ -181,7 +181,28 @@ public class mainController {
 		mav.setViewName("/contactMe/contact");
 		return mav;
 	}
+	
+	
+	// 댓글등록
+	@ResponseBody
+	@RequestMapping(value = "practices/addComment.do", method = RequestMethod.POST)
+	public String addComment(@RequestParam Map<String, Object> info, HttpServletRequest request,
+			HttpServletResponse response) {
+		String result="";
+		//boardNum:boardnum,content:content 파라미터 정보
+		try {
+			System.out.print(info.toString());
+			service.addComment(info);
+			result="success";
+		} catch (Exception e) {
+			e.printStackTrace();
+			result="fail";
+		}
+		return result;
+	}
 
+	
+	
 	// 게시판 상세글 이동 + cnt 증가 조회수 + 댓글리스트
 	@ResponseBody
 	@RequestMapping(value = "/practices/boardDetail.do", method = RequestMethod.GET)
