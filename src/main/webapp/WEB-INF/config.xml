@@ -1,6 +1,6 @@
 <config>
 	<!--
-	CKFinder : Configuration File - Basic Instructions
+	CKFinder Configuration File - Basic Instructions
 	
 	In a generic usage case, the following tasks must be done to configure CKFinder:
 	1. Check the baseDir and baseUrl options;

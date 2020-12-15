@@ -165,28 +165,10 @@ span.psw {
 							<ul class="nav navbar-nav menu_nav ml-auto">
 								<li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li> 
 								<li class="nav-item"><a class="nav-link" href="/practices/about.do">About</a></li> 
-								<!-- <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li> -->
 								<li class="nav-item"><a class="nav-link" href="/practices/portfolio.do">Portfolio</a></li>
-								
-								<!-- <li class="nav-item submenu dropdown">
-									<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
-									<ul class="dropdown-menu">
-										<li class="nav-item"><a class="nav-link" href="portfolio.html">Portfolio</a></li>
-										<li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
-									</ul>
-								</li>  -->
 								<li class="nav-item"><a class="nav-link" href="practices/board.do">MySkill</a></li>
-								<!-- <li class="nav-item submenu dropdown">
-									<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog</a>
-									<ul class="dropdown-menu">
-										<li class="nav-item"><a class="nav-link" href="blog.html">Skill</a></li>
-										<li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
-									</ul> 
-								</li> --> 
-								<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-								
+								<li class="nav-item"><a class="nav-link" href="/practices/contact.do">Contact</a></li>
 								<c:if test="${login ne null }">
-								<!-- <li class="nav-item"><a class="nav-link" href="/practices/logOut.do">로그아웃</a></li> -->
 								<li class="nav-item"><a class="nav-link" href="javascript:void(0);" onclick="checkOut();">로그아웃</a></li>  
 								</c:if>
 								<c:if test="${login eq null }">

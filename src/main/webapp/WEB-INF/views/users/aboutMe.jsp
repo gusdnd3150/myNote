@@ -22,6 +22,7 @@
 <title>Insert title here</title>
 </head>
        <jsp:include page="/WEB-INF/views/header/header.jsp" />
+       <section class="banner_area"></section>
  <body>
         
         <!--================Header Menu Area =================-->

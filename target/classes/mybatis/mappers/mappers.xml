@@ -7,100 +7,109 @@
 <mapper namespace="myNoteTest">
 
 	<resultMap id="hmp001_d000Result01" type="hmp001_d000VO">
-		<result property="id" column="id"  />
+		<result property="id" column="id" />
 		<result property="pwd" column="pwd" />
 		<result property="name" column="name" />
 		<result property="email" column="email" />
 		<result property="joinDate" column="joinDate" />
 	</resultMap>
-	
-	
+
+
 	<select id="test" resultType="map">
-	 select *
-	 from products
+		select *
+		from products
 	</select>
-	
-	<select id="checkLogin" resultType="Integer" parameterType="java.util.Map">
-	 select count(*)
-	 from users
-	 where email = trim(#{email})
-	 and password =#{password}
+
+	<select id="checkLogin" resultType="Integer"
+		parameterType="java.util.Map">
+		select count(*)
+		from users
+		where email = trim(#{email})
+		and password =#{password}
 	</select>
-	
+
 	<select id="total" resultType="int">
-	 select count(*)
-	 from boards
+		select count(*)
+		from boards
 	</select>
-	
+
 	<select id="userNum" resultType="int" parameterType="String">
-	 select userNum
-	 from users
-	 where email = #{email}
+		select userNum
+		from users
+		where email = #{email}
 	</select>
-	
-	
-	<select id="boardList" resultType="map" parameterType="java.util.Map">
-	 SELECT * 
+
+
+	<select id="boardList" resultType="map"
+		parameterType="java.util.Map">
+		SELECT *
 		FROM (
-			SELECT ROWNUM RN,A.*
-				FROM (
-						SELECT b.boardnum,b.boardtype,b.content,b.title,b.cnt,to_char(b.updateD,'yyyy-mm-dd')as updated,
-                        u.name,u.id
-						FROM BOARDs b, USERS u
-                        WHERE b.USERNUM= u.USERNUM
-						ORDER BY b.updateD DESC 
-						) A
-				)
-	WHERE RN BETWEEN #{start} AND #{end}
+		SELECT ROWNUM RN,A.*
+		FROM (
+		SELECT
+		b.boardnum,b.boardtype,b.content,b.title,b.cnt,to_char(b.updateD,'yyyy-mm-dd')as
+		updated,
+		u.name,u.id
+		FROM BOARDs b, USERS u
+		WHERE b.USERNUM= u.USERNUM
+		ORDER BY b.updateD DESC
+		) A
+		)
+		WHERE RN BETWEEN #{start} AND #{end}
 	</select>
-	
-	
-	<insert id="createBoard" parameterType="java.util.Map"   >
-		<selectKey resultType="int" keyProperty="boardNum" order="BEFORE">
-	    	select seq_board.nextval from dual
-	    </selectKey>
+
+
+	<insert id="createBoard" parameterType="java.util.Map">
+		<selectKey resultType="int" keyProperty="boardNum"
+			order="BEFORE">
+			select seq_board.nextval from dual
+		</selectKey>
 	    <![CDATA[
 	    		INSERT INTO boards (boardNum,userNum,boardType,content,title,updated)
 	    		VALUES(#{boardNum},#{userNum},#{Boardtype},#{content},#{title},sysdate)
 		]]>
-	    </insert>  
-<!-- 
-	<select id="searchList" resultMap="hmp001_d000Result01" parameterType="java.util.Map"> 
-      <![CDATA[
-         select id, pwd, name, email, joinDate
-         from   t_member
-      ]]>
-		<where>
-			<if test=" p_id != ''  and  p_id != null">
-				id = #{p_id}
-			</if>
-		</where>
+	</insert>
+
+	<select id="boardDetail" resultType="map" parameterType="String">
+		select b.boardnum,b.boardtype,b.cnt,b.content,b.title,b.usernum
+		,u.email,u.name,u.password,u.id,to_char(b.updated,'yyyy-mm-dd')as
+		updated
+		from boards b, users u
+		where b.usernum=u.usernum
+		and b.boardNum= #{boardNum}
 	</select>
 
-	<select id="searchMod" resultMap="hmp001_d000Result01" parameterType="java.util.Map"> 
-      <![CDATA[
-         select id, pwd, name, email, joinDate, num
-         from   t_member
-      ]]>
-		<where>
-			<if test=" p_id != ''  and  p_id != null">
-				id = #{p_id}
-			</if>
-		</where>
+	<select id="afterList" resultType="map" parameterType="String">
+		SELECT *
+		FROM (
+		  SELECT ROWNUM RN, A.*
+		  FROM (
+		  select level lev,AFTERNUM,BOARDNUM,AFTERTYPE,PARENTNUM,CONTENT
+		  from comments
+		  where boardNum= #{boardNum}
+		  start with parentNum is null
+		  connect by prior afternum = parentNum
+		  ORDER SIBLINGS BY afternum
+		) A
+		)
+		WHERE RN BETWEEN 1 AND 6
 	</select>
-	
-	<update id="updateMember" parameterType="java.util.Map">
-		update t_member
-		set  pwd = #{pwd}
-		   , name = #{name}
-		   , email = #{email}
-		   , joinDate = #{joinDate}
-		   , num = #{num, jdbcType=NUMERIC}
-		where id = #{id}
+
+	<update id="updateCNT" parameterType="String">
+		update boards
+		set cnt = cnt+1
+		where boardNum=#{boardNum}
 	</update>
-	
-	<insert id="insertMember" parameterType="java.util.Map">
-		insert into t_member(id, pwd, name, email) values(#{id}, #{pwd}, #{name}, #{email})
-	</insert> -->
+	<!-- <select id="searchList" resultMap="hmp001_d000Result01" parameterType="java.util.Map"> 
+		<![CDATA[ select id, pwd, name, email, joinDate from t_member ]]> <where> 
+		<if test=" p_id != '' and p_id != null"> id = #{p_id} </if> </where> </select> 
+		<select id="searchMod" resultMap="hmp001_d000Result01" parameterType="java.util.Map"> 
+		<![CDATA[ select id, pwd, name, email, joinDate, num from t_member ]]> <where> 
+		<if test=" p_id != '' and p_id != null"> id = #{p_id} </if> </where> </select> 
+		<update id="updateMember" parameterType="java.util.Map"> update t_member 
+		set pwd = #{pwd} , name = #{name} , email = #{email} , joinDate = #{joinDate} 
+		, num = #{num, jdbcType=NUMERIC} where id = #{id} </update> <insert id="insertMember" 
+		parameterType="java.util.Map"> insert into t_member(id, pwd, name, email) 
+		values(#{id}, #{pwd}, #{name}, #{email}) </insert> -->
 
 </mapper>

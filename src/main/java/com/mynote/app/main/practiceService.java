@@ -36,4 +36,13 @@ public class practiceService {
 	public int userNum(String info) {
 		 return dao.userNum(info);
 	}
+	public List<Map<String,Object>> boardDetail(String info) {
+		 return dao.boardDetail(info);
+	}
+	public void updateCNT(String info) {
+		dao.updateCNT(info);
+	}
+	public List<Map<String,Object>> afterList(String info) {
+		return dao.afterList(info);
+	}
 }
