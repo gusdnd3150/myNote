@@ -71,7 +71,8 @@
 				<div id="paging" align="center"></div>
 
 				<div align="center">
-					<button class="btn btn-default btn-lg" onclick="writeBoard();">글쓰기</button>
+					<button class="btn btn-default btn-lg" style="font-size: medium;"
+						onclick="writeBoard();">글쓰기</button>
 				</div>
 
 			</div>
@@ -124,24 +125,30 @@
 		paging(1, 6);
 
 	});
-	
-	
-	function addComment(boardNum){  //댓글등록
-	var content =$("#commentContent").val();
-		 $.ajax({
-			            type: "post",
-			            url: "/practices/addComment.do",
-			            data: {boardNum:boardNum,content:content},
-			            dataType: "text",
-			            success: function( responseData, status , xhr ){
-			            },
-			            error:function(xhr, status, error){
-			                console.log(error);
-			            }
-			        });
+
+	function addComment(boardNum) { //댓글등록
+		var content = $("#commentContent").val();
+		var email = "${email}";
+
+		if (email == null | email == "") {
+			alert("로그인 후 이용 가능합니다.");
+			return;
+		}
+		$.ajax({
+			type : "post",
+			url : "/practices/addComment.do",
+			data : {
+				boardNum : boardNum,
+				content : content
+			},
+			dataType : "text",
+			success : function(responseData, status, xhr) {
+			},
+			error : function(xhr, status, error) {
+				console.log(error);
+			}
+		});
 	}
-	
-	
 
 	function fold() {
 		$("#detailContainer").slideUp();
@@ -165,7 +172,8 @@
 
 						if (data.startPage != 1) {
 							pagingView += "<li><a href='#' onclick='return paging("
-									+ (data.startPage - 1) + ","
+									+ (data.startPage - 1)
+									+ ","
 									+ data.cntPerPage + ");'>&lt;</a></li>";
 						}
 
@@ -185,16 +193,18 @@
 
 						if (data.endPage != data.lastPage) {
 							pagingView += "<li><a href='#' onclick='return paging("
-									+ (data.endPage + 1) + ","
+									+ (data.endPage + 1)
+									+ ","
 									+ data.cntPerPage + ");'>&gt;</a></li>";
 						}
-						
+
 						pagingView += "</ul>";
 
 						var pagingDiv = $("#paging");
 						pagingDiv.html(pagingView);
 
-						$.ajax({
+						$
+								.ajax({
 									type : "get",
 									url : "/practices/pagingValues.do",
 									dataType : "json",
@@ -227,11 +237,11 @@
 												table += "<td>" + data[i].RN
 														+ "</td>";
 												/* table += "<td><a href='/practices/boardDetail.do?boardNum="+data[i].BOARDNUM+"'>"+data[i].TITLE+"</a></td>"; */
-												table += "<td><a href='#' onclick='return showBoard("
-														+ data[i].BOARDNUM
-														+ ");'>"
-														+ data[i].TITLE
-														+ "</a></td>";
+												if(data[i].COUNT>0){
+												table += "<td><a href='#' onclick='return showBoard("+data[i].BOARDNUM+ ");'>"+data[i].TITLE+"["+data[i].COUNT+"]</a></td>";
+												}else{
+													table += "<td><a href='#' onclick='return showBoard("+data[i].BOARDNUM+ ");'>"+data[i].TITLE+ "</a></td>";
+												}
 												table += "<td>" + data[i].NAME
 														+ "</td>";
 												table += "<td>"
@@ -282,7 +292,8 @@
 	}
 
 	function showBoard(boardNum) { //게시판 디테일
-		$.ajax({
+		$
+				.ajax({
 					type : "get",
 					url : "/practices/boardDetail.do",
 					data : {
@@ -297,7 +308,8 @@
 						var outPut = "";
 
 						outPut += "";
-						outPut += "<h1 >" + responseData.detail[0].TITLE + "</h1>";
+					
+						outPut += "<h1 >" + responseData.detail[0].TITLE+"</h1>";	
 						outPut += "<br>";
 						outPut += "<div class='media'>";
 						outPut += "<div class='media-left'>";
@@ -306,13 +318,15 @@
 						outPut += "<div class='media-body'>";
 						outPut += "<h4 class='media-heading'>"
 								+ responseData.detail[0].ID + "</h4>";
-						outPut += "<p>날짜 " + responseData.detail[0].UPDATED + " 조회수:"
-								+ responseData.detail[0].CNT + "  </p>";
+						outPut += "<p>날짜 " + responseData.detail[0].UPDATED
+								+ " 조회수:" + responseData.detail[0].CNT
+								+ "  </p>";
 						outPut += "</div>";
 						outPut += "</div>";
 						outPut += "<hr>";
 						outPut += "<textarea id='content'>"
-								+ responseData.detail[0].CONTENT + "</textarea>";
+								+ responseData.detail[0].CONTENT
+								+ "</textarea>";
 						outPut += "<br>";
 						outPut += "<hr>";
 						outPut += "";
@@ -322,48 +336,74 @@
 						boardDetail.append(outPut); // append로 테그를 추가
 						showCK(); // ck에디터 적용 함수
 						detailContainer.slideDown(); // 숨김처리로 된 div를 노출시킴
-						
-						var afterList = $("#afterList");
-						var afterPut ="";
-						console.log(responseData.afterList);
-						
-						if(responseData.afterList.length==0){
-							afterPut +="<div class='media'>";
-							afterPut +="<div class='media-left'>";
-							afterPut +="<p>댓글이 없습니다.</p>";
-							afterPut +="</div></div>";
-						}else{
-							for(var i in responseData.afterList){
-								if(responseData.afterList[i].LEV==1){  //원글이면
-									afterPut +="<div class='media'>";
-								}else if(responseData.afterList[i].LEV==2){ // 댓글이면 padding으로 구분지었다
-									afterPut +="<div class='media'  style='padding-left:50px'>";
-								}else if(responseData.afterList[i].LEV==3){ //대댓글이면
-									afterPut +="<div class='media'  style='padding-left:100px'>";
-								}
-									afterPut +="<div class='media-left'>";
-									
-									afterPut +="<img src='/resources/userBasic.jpg' class='media-object' style='width:45px'>";
-									afterPut +="</div>";
-									afterPut +="<div class='media-body'>";
-									afterPut +="<h4 class='media-heading'>John Doe <small><i>Posted on February 20, 2016</i></small></h4>";
-									afterPut +="<p>SDSD</p>";
-									afterPut +="</div>";
-									afterPut +="</div>";
-							}
-						}
-						afterList.html(afterPut);
-						
-						var commentButton= $("#commentButton");
-						
-						commentButton.html("<div class='input-group'>"
-								+"<textarea placeholder='로그인 후 이용 가능합니다.' id='commentContent' class='form-control custom-control' rows='3' style='resize:none'></textarea>"
-								+"<span style='width:89px;font-size: 25px;' class='input-group-addon btn btn-primary' onclick='addComment("+responseData.detail[0].BOARDNUM+")'>등록</span>"
-								+"</div>"
-								);
+						showAfter(boardNum);
 					},
 					error : function(xhr) {
 						console.log(xhr);
+					}
+				});
+
+	}
+
+	function showAfter(boardNum) { //댓글 보여주기 함수
+		$
+				.ajax({
+					type : "get",
+					url : "/practices/afterList.do",
+					data : {
+						boardNum : boardNum
+					},
+					dataType : "json",
+					success : function(data, status, xhr) {
+						console.log("댓글리스트:"+data);
+						var afterList = $("#afterList");
+						var afterPut = "";
+						
+						if (data.length == 0) {
+							afterPut += "<div class='media'>";
+							afterPut += "<div class='media-left'>";
+							afterPut += "<p>댓글이 없습니다.</p>";
+							afterPut += "</div></div>";
+						} else {
+
+							for ( var i in data) {
+								if (data[i].LEV == 1) { //원글이면
+									afterPut += "<div class='media'>";
+								} else if (data[i].LEV == 2) { // 댓글이면 padding으로 구분지었다
+									afterPut += "<div class='media'  style='padding-left:50px'>";
+								} else if (data[i].LEV == 3) { //대댓글이면
+									afterPut += "<div class='media'  style='padding-left:100px'>";
+								}
+								afterPut += "<div class='media-left'>";
+								if (data[i].PROFILEIMAGE == null) { //프로필사진이 없으면
+									afterPut += "<img src='/resources/userBasic.jpg' class='media-object' style='width:45px'>";
+								} else {
+									afterPut += "<img src='/resources/"+data[i].PROFILEIMAGE+"' class='media-object' style='width:45px'>";
+								}
+								afterPut += "</div>";
+								afterPut += "<div class='media-body'>";
+								afterPut += "<h4 class='media-heading'>"
+										+ data[i].ID + "<small><i>"
+										+ data[i].UPDATED
+										+ "</i></small></h4>";
+								afterPut += "<p>" + data[i].CONTENT
+										+ "</p>";
+								afterPut += "</div>";
+								afterPut += "</div>";
+							}
+						}
+						afterList.html(afterPut);
+
+						var commentButton = $("#commentButton");
+
+						commentButton
+								.html("<div class='input-group'>"
+										+ "<textarea placeholder='로그인 후 이용 가능합니다.' id='commentContent' class='form-control custom-control' rows='3' style='resize:none'></textarea>"
+										+ "<span style='width:89px;font-size: 25px;' class='input-group-addon btn btn-primary' onclick='addComment("
+										+ data[0].BOARDNUM
+										+ ")'>등록</span>" + "</div>");
+					},
+					error : function(xhr, status, error) {
 					}
 				});
 

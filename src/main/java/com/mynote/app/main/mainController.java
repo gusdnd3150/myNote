@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -187,10 +188,17 @@ public class mainController {
 	@ResponseBody
 	@RequestMapping(value = "practices/addComment.do", method = RequestMethod.POST)
 	public String addComment(@RequestParam Map<String, Object> info, HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response,HttpSession session) {
 		String result="";
 		//boardNum:boardnum,content:content 파라미터 정보
+		
+		String email =  (String) session.getAttribute("email");
+		int userNum = service.userNum(email);   //세션에서 유저번호 가져온다.
+		
+		info.put("userNum", userNum);
 		try {
+			
+			
 			System.out.print(info.toString());
 			service.addComment(info);
 			result="success";
@@ -201,7 +209,21 @@ public class mainController {
 		return result;
 	}
 
-	
+	// 댓글리스트
+		@ResponseBody
+		@RequestMapping(value = "/practices/afterList.do", method = RequestMethod.GET)
+		public List<Map<String,Object>> afterList(@RequestParam Map<String, Object> info, HttpServletRequest request,
+				HttpServletResponse response,HttpSession session) {
+			List<Map<String,Object>> result= null;
+			String boardNum= (String) info.get("boardNum");
+			System.out.print("댓글 넘버:"+info.toString());
+			try {
+				result =service.afterList(boardNum);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return result;
+		}
 	
 	// 게시판 상세글 이동 + cnt 증가 조회수 + 댓글리스트
 	@ResponseBody
@@ -238,16 +260,12 @@ public class mainController {
 				service.updateCNT(boardNum);
 			}
 		}
-		///
 
 		Map<String,List<Map<String,Object>>> result = new HashMap<String,List<Map<String,Object>>>();
 		List<Map<String,Object>> detailBoard=null;
-		List<Map<String,Object>> afterList=null;
 		try {
 			detailBoard = service.boardDetail(boardNum);  //게시글
-			afterList = service.afterList(boardNum);    //댓글리스트
 			result.put("detail", detailBoard);
-			result.put("afterList", afterList);
 
 		} catch (Exception e) {
 			e.printStackTrace();

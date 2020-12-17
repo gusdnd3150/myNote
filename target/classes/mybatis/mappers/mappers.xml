@@ -48,7 +48,10 @@
 		FROM (
 		SELECT
 		b.boardnum,b.boardtype,b.content,b.title,b.cnt,to_char(b.updateD,'yyyy-mm-dd')as
-		updated,
+		updated,(select count(*)
+        from comments
+        where boardnum =b.boardnum
+        )as count,
 		u.name,u.id
 		FROM BOARDs b, USERS u
 		WHERE b.USERNUM= u.USERNUM
@@ -77,8 +80,8 @@
 			select seq_comment.nextval from dual
 		</selectKey>
 	    <![CDATA[
-	    		INSERT INTO comments (afterNum,boardnum,aftertype,content)
-	    		VALUES(#{afterNum},#{boardNum},1,#{content})
+	    		INSERT INTO comments (afterNum,boardnum,aftertype,content,userNum,updated)
+	    		VALUES(#{afterNum},#{boardNum},1,#{content},#{userNum},sysdate)
 		]]>
 	</insert>
 	
@@ -98,12 +101,14 @@
 		FROM (
 		  SELECT ROWNUM RN, A.*
 		  FROM (
-		  select level lev,AFTERNUM,BOARDNUM,AFTERTYPE,PARENTNUM,CONTENT
-		  from comments
-		  where boardNum= #{boardNum}
-		  start with parentNum is null
-		  connect by prior afternum = parentNum
-		  ORDER SIBLINGS BY afternum
+		  select level lev,c.AFTERNUM,c.BOARDNUM,c.AFTERTYPE,c.PARENTNUM,c.CONTENT,c.usernum,
+		  to_char(c.updated,'yyyy-mm-dd')as updated,u.id,u.PROFILEIMAGE
+		  from comments c, users u
+		  where c.usernum= u.usernum
+          and c.boardNum= #{boardNum}
+		  start with c.parentNum is null
+		  connect by prior c.afternum = c.parentNum
+		  ORDER SIBLINGS BY c.afternum
 		) A
 		)
 		WHERE RN BETWEEN 1 AND 6
