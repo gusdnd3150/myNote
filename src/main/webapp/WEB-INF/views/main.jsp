@@ -166,7 +166,7 @@ span.psw {
 								<li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li> 
 								<li class="nav-item"><a class="nav-link" href="/practices/about.do">About</a></li> 
 								<li class="nav-item"><a class="nav-link" href="/practices/portfolio.do">Portfolio</a></li>
-								<li class="nav-item"><a class="nav-link" href="practices/board.do">MySkill</a></li>
+								<li class="nav-item"><a class="nav-link" href="/practices/mySkill.do">MySkill</a></li>
 								<li class="nav-item"><a class="nav-link" href="/practices/contact.do">Contact</a></li>
 								<c:if test="${login ne null }">
 								<li class="nav-item"><a class="nav-link" href="javascript:void(0);" onclick="checkOut();">로그아웃</a></li>  

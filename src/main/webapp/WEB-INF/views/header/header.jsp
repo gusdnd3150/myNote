@@ -54,8 +54,7 @@ function checkOut(){
 								<li class="nav-item"><a class="nav-link" href="/practices/about.do">About</a></li> 
 								<li class="nav-item"><a class="nav-link" href="/practices/portfolio.do">Portfolio</a></li>
 							
-								<li class="nav-item"><a class="nav-link" href="/practices/board.do">MySkill</a></li>
-							
+								<li class="nav-item"><a class="nav-link" href="/practices/mySkill.do">MySkill</a></li>
 								<li class="nav-item"><a class="nav-link" href="/practices/contact.do">Contact</a></li>
 								
 								<c:if test="${email ne null }">

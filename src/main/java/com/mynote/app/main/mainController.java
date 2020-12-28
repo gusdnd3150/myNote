@@ -66,6 +66,16 @@ public class mainController {
 		mav.setViewName("main");
 		return mav;
 	}
+	
+	
+	@RequestMapping(value = "/mySkill.do", method = RequestMethod.GET)
+	public ModelAndView mySkill(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		//HttpSession session = request.getSession();
+
+		mav.setViewName("/board/mySkill");
+		return mav;
+	}
 
 	@ResponseBody
 	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
