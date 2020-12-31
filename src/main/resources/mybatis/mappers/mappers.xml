@@ -6,12 +6,21 @@
 
 <mapper namespace="myNoteTest">
 
-	<resultMap id="hmp001_d000Result01" type="hmp001_d000VO">
-		<result property="id" column="id" />
-		<result property="pwd" column="pwd" />
-		<result property="name" column="name" />
-		<result property="email" column="email" />
-		<result property="joinDate" column="joinDate" />
+	<resultMap id="boardVO" type="boardVO">
+		<result property="boardNum" column="boardNum" />
+		<result property="userNum" column="userNum" />
+		<result property="boardType" column="boardType" />
+		<result property="content" column="content" />
+		<result property="title" column="title" />
+		<result property="cnt" column="cnt" />
+		<result property="updateD" column="updateD" />
+		<collection property="comment" resultMap="commentVO"></collection>
+	</resultMap>
+	
+    <resultMap id="commentVO" type="commentVO">
+		<result property="imageNum" column="imageNum" />
+		<result property="boardNum" column="boardNum" />
+		<result property="detailImage" column="detailImage" />
 	</resultMap>
 
 
@@ -27,6 +36,13 @@
 		where email = trim(#{email})
 		and password =#{password}
 	</select>
+    
+    <select id="testJoin" resultMap="boardVO">
+   select *
+   from boards a, images b
+   where a.boardnum=b.boardnum
+    </select>
+
 
 	<select id="total" resultType="int">
 		select count(*)

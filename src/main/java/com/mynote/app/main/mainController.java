@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.mynote.app.Paging;
+import com.mynote.app.main.vos.BoardVO;
 
 //import com.mynote.app.HomeController;
 @Controller
@@ -282,5 +283,16 @@ public class mainController {
 		}
 		
 		return result;
+	}
+	
+	@RequestMapping(value = "/practices/joinTest.do", method = RequestMethod.GET)
+	public void testJoin() {
+		List<BoardVO> list = service.testJoin();
+		System.out.print("boardnum : "+ list.get(0).getBoardNum());
+		System.out.print("boardtype : "+ list.get(0).getBoardType());
+		System.out.print("content : "+ list.get(0).getContent());
+		System.out.print("조인값image : "+ list.get(0).getComment().getDetailImage());
+		System.out.print("조인값num : "+ list.get(0).getComment().getImageNum());
+		System.out.print("조인값boardnum : "+ list.get(0).getComment().getBoardNum());
 	}
 }

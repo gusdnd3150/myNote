@@ -1,5 +1,6 @@
 package com.mynote.app.main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Map;
@@ -7,6 +8,8 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.mynote.app.main.vos.BoardVO;
 
 @Repository
 public class practicesDAO {
@@ -52,16 +55,23 @@ public class practicesDAO {
 
 	// 조회수 증가
 	public void updateCNT(String info) {
-			 sqlSession.update("myNoteTest.updateCNT",info);
-		}
+		sqlSession.update("myNoteTest.updateCNT", info);
+	}
 
 	// 댓글 리스트
-	public List<Map<String,Object>> afterList(String info) {
-		return sqlSession.selectList("myNoteTest.afterList",info);
+	public List<Map<String, Object>> afterList(String info) {
+		return sqlSession.selectList("myNoteTest.afterList", info);
+	}
+
+	// 댓글 등록
+	public void addComment(Map<String, Object> info) {
+		sqlSession.insert("myNoteTest.addComment", info);
 	}
 	
-	// 댓글 등록
-		public void addComment(Map<String,Object> info) {
-			 sqlSession.insert("myNoteTest.addComment",info);
-		}
+    // vo 조인 테스트
+	public List<BoardVO> testJoin() {
+		List<BoardVO> list = new ArrayList<BoardVO>();
+		list =sqlSession.selectList("myNoteTest.testJoin");
+		return list;
+	}
 }

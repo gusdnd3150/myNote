@@ -1,10 +1,13 @@
 package com.mynote.app.main;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.mynote.app.main.vos.BoardVO;
 
 @Service
 public class practiceService {
@@ -52,5 +55,9 @@ public class practiceService {
 
 	public void addComment(Map<String, Object> info) {
 		dao.addComment(info);
+	}
+	
+	public List<BoardVO> testJoin() {
+		return dao.testJoin();
 	}
 }

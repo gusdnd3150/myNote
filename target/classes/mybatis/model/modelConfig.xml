@@ -4,6 +4,7 @@
 
 <configuration>
 	<typeAliases>
-	<typeAlias type="com.mynote.app.vo"  alias="hmp001_d000VO" />
+	<typeAlias type="com.mynote.app.main.vos.BoardVO"  alias="boardVO" />
+	<typeAlias type="com.mynote.app.main.vos.commentVO"  alias="commentVO" />
 	</typeAliases> 
 </configuration>
